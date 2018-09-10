@@ -3,6 +3,21 @@ import ImageSlider from 'react-native-image-slider';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 export default class HomePage extends React.Component {
+ 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sliderImages: []
+    }
+  }
+
+  componentDidMount = () => {
+    fetch('http://192.168.1.4:3000/homepage-slider-images', {method: 'GET'})
+      .then((response) => response.json())
+      .then((responseJson) => this.setState({sliderImages: responseJson}))
+      .catch(error => console.error(error));
+  }
 
   onPressListCars = () => {
     console.log('[onPressListCars]');
@@ -17,18 +32,14 @@ export default class HomePage extends React.Component {
       <View style={styles.container}>
         <View style={styles.slideshow}>
           <ImageSlider 
-            images={[
-              'https://bit.ly/2NzFjfm',
-              'https://bit.ly/2QhxVDO',
-              'https://bit.ly/2Qhzams',
-            ]}
+            images={this.state.sliderImages}
           />
         </View>
 
         <View style={styles.buttons}>
           <Text style={styles.welcomeText}>Welcome to Rent a Car</Text>
-          <Text style={styles.welcomeText2}>Start your journey here</Text>
-          <Text style={styles.welcomeText2}>With our brand new super cars</Text>
+          <Text style={styles.welcomeText2}>Start your journey here with our </Text>
+          <Text style={styles.welcomeText2}>brand new super cars</Text>
 
           <TouchableOpacity onPress={this.onPressListCars} style={styles.button}>
             <Text style={styles.buttonText}>List cars</Text>
@@ -74,7 +85,6 @@ const styles = StyleSheet.create({
   welcomeText2: {
     fontSize: 16,
     color: '#ffffff',
-    marginTop: 5,
   },
 
   buttonText: {
@@ -82,7 +92,7 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    marginTop: 25,
+    marginTop: 30,
     padding: 10,
     backgroundColor: '#e5e5e5',
     alignItems: 'center',
