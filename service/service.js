@@ -19,6 +19,7 @@ app.use((req, res, next) => {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 let dbHomepageImages;
+let dbCars;
 
 database.ref('images/homepage-slider-images').on('value', snapshot => {
     dbHomepageImages = snapshot.val();
@@ -26,24 +27,23 @@ database.ref('images/homepage-slider-images').on('value', snapshot => {
     console.error('Error while loading homepage slider images ' + error);
 });
 
-function createArrayFromObject(data) {
-    let newData = new Array();
-  
-    for (let key in data) {
-        let obj = data[key];
-        obj.id = key;
-        newData.push(obj);    
-    }
-  
-    return newData;
-}
+database.ref('cars').on('value', snapshot => {
+    dbCars = snapshot.val();
+}, error => {
+    console.log('Error while loading cars ' + error);
+});
 
+// Endpoints
 app.get('/', (req, res) => {
     res.send('Service works! :)');
 });
 
-app.get('/homepage-slider-images', (req, res) => {
+app.get('/api/homepage-slider-images', (req, res) => {
     res.send(dbHomepageImages);
+});
+
+app.get('/api/cars', (req, res) => { 
+    res.send(dbCars);
 });
 
 app.listen(port, () => {

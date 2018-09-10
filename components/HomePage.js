@@ -9,13 +9,13 @@ export default class HomePage extends React.Component {
 
     this.state = {
       sliderImages: []
-    }
+    };
   }
 
   componentDidMount = () => {
-    fetch('http://192.168.1.4:3000/homepage-slider-images', {method: 'GET'})
-      .then((response) => response.json())
-      .then((responseJson) => this.setState({sliderImages: responseJson}))
+    fetch('http://192.168.1.4:3000/api/homepage-slider-images', {method: 'GET'})
+      .then(response => response.json())
+      .then(responseJson => this.setState({sliderImages: responseJson}))
       .catch(error => console.error(error));
   }
 
@@ -59,11 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#333333',
-  },
-
-  imageBackground: {
-    width: '100%',
-    height: '100%'
   },
 
   slideshow: {
