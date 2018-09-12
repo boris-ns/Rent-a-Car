@@ -20,11 +20,11 @@ export default class HomePage extends React.Component {
   }
 
   onPressListCars = () => {
-    console.log('[onPressListCars]');
+    this.props.navigation.navigate('CarList');
   }
 
   onPressContact = () => {
-    console.log('[onPressContact]');
+    this.props.navigation.navigate('Contact');
   }
 
   render() {
